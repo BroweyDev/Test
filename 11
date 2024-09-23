@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Находим все процессы, связанные с xmrig
+echo "Поиск процессов xmrig..."
+pids=$(pgrep -f xmrig)
+
+if [ -z "$pids" ]; then
+  echo "Процессы xmrig не найдены."
+else
+  # Убиваем все процессы xmrig
+  echo "Убиваем процессы xmrig..."
+  kill -9 $pids
+  echo "Процессы xmrig завершены."
+fi
+
+# Ищем возможные пути к бинарному файлу xmrig
+echo "Поиск файлов xmrig..."
+xmrig_paths=$(which xmrig 2>/dev/null)
+
+if [ -z "$xmrig_paths" ]; then
+  echo "Бинарный файл xmrig не найден."
+else
+  # Удаляем бинарные файлы xmrig
+  echo "Удаление бинарных файлов xmrig..."
+  for path in $xmrig_paths; do
+    rm -f "$path"
+    echo "Удален файл: $path"
+  done
+fi
+
+# Поиск и удаление папок, связанных с xmrig
+echo "Поиск и удаление папок, связанных с xmrig..."
+find / -name "xmrig*" -type d -exec rm -rf {} +
+
+echo "Скрипт завершён."
