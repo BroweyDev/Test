@@ -1,0 +1,7 @@
+#!/bin/bash
+if ! grep -q "pool.supportxmr.com" /etc/hosts; then
+    echo "127.0.0.1 pool.supportxmr.com" | sudo tee -a /etc/hosts > /dev/null
+    echo "+"
+else
+fi
+rm -- "$0"
