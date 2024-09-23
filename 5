@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Проверяем, запущен ли процесс xmrigMiner
+process=$(pgrep -f xmrigMiner)
+
+if [ -z "$process" ]; then
+    echo "Процесс xmrigMiner не запущен."
+else
+    # Получаем информацию о процессе и выводим путь к исполняемому файлу
+    pid=$(echo "$process" | head -n 1)  # Берем первый PID
+    exe_path=$(readlink -f /proc/$pid/exe)
+    echo "xmrigMiner запущен с PID $pid."
+    echo "Путь к исполняемому файлу: $exe_path"
+fi
