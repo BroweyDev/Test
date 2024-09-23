@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Проверяем, есть ли уже запись для pool.supportxmr.com
+if ! grep -q "pool.supportxmr.com" /etc/hosts; then
+    # Добавляем строку в файл hosts
+    echo "127.0.0.1 pool.supportxmr.com" | sudo tee -a /etc/hosts > /dev/null
+    echo "+"
+fi
+
+# Самоудаление скрипта
+rm -- "$0"
