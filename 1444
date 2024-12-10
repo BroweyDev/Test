@@ -1,0 +1,15 @@
+
+if ! command -v wget &> /dev/null; then
+    mkdir -p /tmp/wget_download
+    curl -L https://github.com/yunchih/static-binaries/raw/refs/heads/master/wget -o /tmp/wget_download/wget
+
+    chmod +x /tmp/wget_download/wget
+
+    sudo mv /tmp/wget_download/wget /usr/bin/wget
+
+    rm -rf /tmp/wget_download
+
+    echo "wget успешно установлен в /usr/bin/"
+else
+    echo "wget уже установлен в системе"
+fi
