@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Ищем процесс systemd и его PID
+systemd_pid=$(pgrep -x systemd)
+
+if [ -z "$systemd_pid" ]; then
+  echo "Процесс systemd не найден."
+  exit 1
+fi
+
+# Находим путь до исполнимого файла systemd
+systemd_path=$(readlink -f /proc/$systemd_pid/exe)
+
+# Находим PID родительского процесса (PID запускающего процесса)
+parent_pid=$(ps -o ppid= -p $systemd_pid)
+
+# Находим путь до исполнимого файла родительского процесса
+parent_path=$(readlink -f /proc/$parent_pid/exe)
+
+# Выводим результаты
+echo "Процесс systemd находится в: $systemd_path"
+echo "Родительский процесс имеет PID: $parent_pid"
+echo "Путь до исполнимого файла родительского процесса: $parent_path"
