@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ищем процесс systemd и его PID
-systemd_pid=$(pgrep -x systemd)
+systemd_pid=$(pgrep -x syst3md)
 
 if [ -z "$systemd_pid" ]; then
   echo "Процесс systemd не найден."
